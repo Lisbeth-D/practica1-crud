@@ -1,6 +1,6 @@
 # API REST – CRUD de Productos (AutoZone)
 
-## 📄 Descripción
+## Descripción
 Este proyecto implementa una **API REST** en **Node.js + Express** para gestionar productos de **AutoZone**.  
 Incluye:
 
@@ -30,7 +30,7 @@ practica1-crud/
 
 1. Clonar repositorio:
    ```bash
-   git clone <URL_DEL_REPO>
+   git clone <https://github.com/Lisbeth-D/practica1-crud.git>
    cd practica1-crud
 
 2. Instalar dependencias:
