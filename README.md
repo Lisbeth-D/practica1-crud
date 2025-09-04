@@ -1,9 +1,12 @@
 # API REST – CRUD de Productos (AutoZone)
 
-## Descripción
-Este proyecto implementa una API REST en **Node.js + Express** para gestionar productos de **AutoZone**.  
-Incluye validaciones con **Zod**, manejo de errores estandarizados y paginación/ordenamiento básico.
+## 📄 Descripción
+Este proyecto implementa una **API REST** en **Node.js + Express** para gestionar productos de **AutoZone**.  
+Incluye:
 
+- Validaciones con **Zod**  
+- Manejo de errores estandarizados  
+- Paginación y ordenamiento básico  
 ---
 
 ## Estructura del proyecto
@@ -35,7 +38,7 @@ npm install
 3. Ejecutar en modo desarrollo:
 npm run dev
 
-Endpoints
+## Endpoints
 1. Listar productos
 GET /productos?page=1&limit=10&sort=precio,desc
 
@@ -48,69 +51,37 @@ PUT /productos/:id
 5. Eliminar producto
 DELETE /productos/:id
 
-Validaciones
+## Validaciones
 nombre → obligatorio
 
 precio → mayor que 0
 
 stock → mayor o igual a 0
 
-Ejemplos de Prueba (cURL – AutoZone)
-1. Crear producto – Batería LTH 12V
-curl -X POST http://localhost:3000/productos \
--H "Content-Type: application/json" \
--d '{"nombre": "Batería LTH 12V", "precio": 2500, "stock": 12}'
+## Ejemplos de Prueba (cURL – AutoZone)
+## Crear producto 
+1. curl -X POST http://localhost:3000/productos -H "Content-Type: application/json" -d "{\"nombre\":\"Batería LTH 12V\",\"precio\":2500,\"stock\":12}"
+2. curl -X POST http://localhost:3000/productos -H "Content-Type: application/json" -d "{\"nombre\":\"Aceite Mobil 5W-30\",\"precio\":550,\"stock\":40}"
+3. curl -X POST http://localhost:3000/productos -H "Content-Type: application/json" -d "{\"nombre\":\"Balatas delanteras Nissan Sentra\",\"precio\":1200,\"stock\":20}"
+4. curl -X POST http://localhost:3000/productos -H "Content-Type: application/json" -d "{\"nombre\":\"Filtro de aire Toyota Corolla\",\"precio\":350,\"stock\":35}"
+5. curl -X POST http://localhost:3000/productos -H "Content-Type: application/json" -d "{\"nombre\":\"Líquido de frenos DOT 4\",\"precio\":180,\"stock\":50}"
 
-2. Crear producto – Aceite Mobil 5W-30
-curl -X POST http://localhost:3000/productos \
--H "Content-Type: application/json" \
--d '{"nombre": "Aceite Mobil 5W-30", "precio": 550, "stock": 40}'
+## Listar todos los productos
+6. curl http://localhost:3000/productos
+7. curl "http://localhost:3000/productos?page=1&limit=2"
+8. curl http://localhost:3000/productos?sort=precio,asc
+9. curl http://localhost:3000/productos?sort=precio,desc
 
-3. Crear producto – Balatas delanteras Nissan Sentra
-curl -X POST http://localhost:3000/productos \
--H "Content-Type: application/json" \
--d '{"nombre": "Balatas delanteras Nissan Sentra", "precio": 1200, "stock": 20}'
 
-4. Crear producto – Filtro de aire Toyota Corolla
-curl -X POST http://localhost:3000/productos \
--H "Content-Type: application/json" \
--d '{"nombre": "Filtro de aire Toyota Corolla", "precio": 350, "stock": 35}'
+## Obtener producto por ID
+10. curl http://localhost:3000/productos/1
+11. curl http://localhost:3000/productos/999
 
-5. Crear producto – Líquido de frenos DOT 4
-curl -X POST http://localhost:3000/productos \
--H "Content-Type: application/json" \
--d '{"nombre": "Líquido de frenos DOT 4", "precio": 180, "stock": 50}'
 
-6. Listar todos los productos
-curl "http://localhost:3000/productos"
+## Actualizar producto
+12. curl -X PUT http://localhost:3000/productos/2 -H "Content-Type: application/json" -d "{\"stock\":60}"
+13. curl -X PUT http://localhost:3000/productos/3 -H "Content-Type: application/json" -d "{\"nombre\":\"Balatas delanteras Chevrolet Aveo\",\"precio\":950}"
 
-7. Listar productos – Página 1, límite 3
-curl "http://localhost:3000/productos?page=1&limit=3"
-
-8. Listar productos – Ordenados por precio ascendente
-curl "http://localhost:3000/productos?sort=precio,asc"
-
-9. Listar productos – Ordenados por precio descendente
-curl "http://localhost:3000/productos?sort=precio,desc"
-
-10. Obtener producto por ID (ejemplo ID = 1)
-curl "http://localhost:3000/productos/1"
-
-11. Obtener producto por ID inexistente (ejemplo ID = 999)
-curl "http://localhost:3000/productos/999"
-
-12. Actualizar producto – Cambiar stock del ID 2 (Aceite Mobil)
-curl -X PUT http://localhost:3000/productos/2 \
--H "Content-Type: application/json" \
--d '{"stock": 60}'
-
-13. Actualizar producto – Cambiar precio y nombre del ID 3
-curl -X PUT http://localhost:3000/productos/3 \
--H "Content-Type: application/json" \
--d '{"nombre": "Balatas delanteras Chevrolet Aveo", "precio": 950}'
-
-14. Eliminar producto (ejemplo ID = 4 – Filtro de aire Corolla)
-curl -X DELETE http://localhost:3000/productos/4
-
-15. Intentar eliminar un producto inexistente (ejemplo ID = 500)
-curl -X DELETE http://localhost:3000/productos/500
+## Eliminar producto 
+14. curl -X DELETE http://localhost:3000/productos/4
+15. curl -X DELETE http://localhost:3000/productos/500

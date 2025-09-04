@@ -1,9 +1,12 @@
 let productos = [
-  { id: 1, nombre: "Lapiz", precio: 5, stock: 100, creadoEn: new Date().toISOString() },
-  { id: 2, nombre: "Cuaderno", precio: 20, stock: 50, creadoEn: new Date().toISOString() },
-  { id: 3, nombre: "Borrador", precio: 3, stock: 200, creadoEn: new Date().toISOString() }
+  { id: 1, nombre: "Batería LTH 12V", precio: 2500, stock: 12, creadoEn: new Date().toISOString() },
+  { id: 2, nombre: "Aceite Mobil 5W-30", precio: 550, stock: 40, creadoEn: new Date().toISOString() },
+  { id: 3, nombre: "Balatas delanteras Nissan Sentra", precio: 1200, stock: 20, creadoEn: new Date().toISOString() },
+  { id: 4, nombre: "Filtro de aire Toyota Corolla", precio: 350, stock: 35, creadoEn: new Date().toISOString() },
+  { id: 5, nombre: "Líquido de frenos DOT 4", precio: 180, stock: 50, creadoEn: new Date().toISOString() }
 ];
-let nextId = 4;
+
+let nextId = 6;
 
 function getAll() { return productos; }
 function getById(id) { return productos.find(p => p.id === id); }
