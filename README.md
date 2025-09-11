@@ -1,15 +1,28 @@
-# API REST – CRUD de Productos (AutoZone)
+# Práctica 3: Autenticación con JWT y Roles
 
+<<<<<<< HEAD
 ## Descripción
 Este proyecto implementa una **API REST** en **Node.js + Express** para gestionar productos de **AutoZone**.  
 Incluye:
+=======
+## Objetivo
+Implementar un sistema de autenticación seguro con **JWT** y control de roles (`admin`, `user`).  
+Se incluyen: registro, login, emisión de tokens, refresh token, middlewares de autorización y rutas protegidas.
 
-- Validaciones con **Zod**  
-- Manejo de errores estandarizados  
-- Paginación y ordenamiento básico  
+---
+
+## Tecnologías usadas
+- Node.js + Express
+- bcrypt (hash de contraseñas)
+- jsonwebtoken (JWT)
+- dotenv (variables de entorno)
+- nodemon (desarrollo)
+>>>>>>> f75f2a6 (Primer commit: proyecto JWT con roles)
+
 ---
 
 ## Estructura del proyecto
+<<<<<<< HEAD
 practica1-crud/
 ├─ src/
 │ ├─ controllers/
@@ -37,51 +50,54 @@ practica1-crud/
 npm install
 3. Ejecutar en modo desarrollo:
 npm run dev
+=======
+practica3-jwt/
+│── controllers/
+│ ├── auth.controller.js
+│ └── user.controller.js
+│
+│── middlewares/
+│ ├── auth.middleware.js
+│ └── role.middleware.js
+│
+│── models/
+│ └── user.model.js
+│
+│── routes/
+│ ├── auth.routes.js
+│ └── user.routes.js
+│
+│── utils/
+│ └── generateToken.js
+│
+│── .env
+│── server.js
+│── package.json
+>>>>>>> f75f2a6 (Primer commit: proyecto JWT con roles)
 
 ## Endpoints
-1. Listar productos
-GET /productos?page=1&limit=10&sort=precio,desc
+1. Registro de usuario
+POST /auth/register
+curl -X POST http://localhost:3000/auth/register -H "Content-Type: application/json" -d "{\"email\":\"admin@test.com\",\"password\":\"Admin123\",\"role\":\"admin\"}"
 
-2. Obtener producto por ID
-GET /productos/:id
-3. Crear producto
-POST /productos
-4. Actualizar producto
-PUT /productos/:id
-5. Eliminar producto
-DELETE /productos/:id
+La contraseña debe ser fuerte:
+-Mínimo 6 caracteres
+-Al menos una mayúscula
+-Al menos una minúscula
+-Al menos un número
 
-## Validaciones
-nombre → obligatorio
+2. Login
+POST /auth/login
+curl -X POST http://localhost:3000/auth/login -H "Content-Type: application/json" -d "{\"email\":\"admin@test.com\",\"password\":\"Admin123\"}"
 
-precio → mayor que 0
+3. Refresh token
+POST /auth/refresh
+curl -X POST http://localhost:3000/auth/refresh -H "Content-Type: application/json" -d "{\"token\":\"PEGAR_AQUI_EL_REFRESH_TOKEN_DEL_LOGIN\"}"
 
-stock → mayor o igual a 0
+4. Obtener usuarios (solo admin)
+GET /users
+curl http://localhost:3000/users -H "Authorization: Bearer PEGAR_AQUI_EL_ACCESS_TOKEN_NUEVO"
 
-## Ejemplos de Prueba (cURL – AutoZone)
-## Crear producto 
-1. curl -X POST http://localhost:3000/productos -H "Content-Type: application/json" -d "{\"nombre\":\"Batería LTH 12V\",\"precio\":2500,\"stock\":12}"
-2. curl -X POST http://localhost:3000/productos -H "Content-Type: application/json" -d "{\"nombre\":\"Aceite Mobil 5W-30\",\"precio\":550,\"stock\":40}"
-3. curl -X POST http://localhost:3000/productos -H "Content-Type: application/json" -d "{\"nombre\":\"Balatas delanteras Nissan Sentra\",\"precio\":1200,\"stock\":20}"
-4. curl -X POST http://localhost:3000/productos -H "Content-Type: application/json" -d "{\"nombre\":\"Filtro de aire Toyota Corolla\",\"precio\":350,\"stock\":35}"
-5. curl -X POST http://localhost:3000/productos -H "Content-Type: application/json" -d "{\"nombre\":\"Líquido de frenos DOT 4\",\"precio\":180,\"stock\":50}"
-
-## Listar todos los productos
-6. curl http://localhost:3000/productos
-7. curl "http://localhost:3000/productos?page=1&limit=2"
-8. curl http://localhost:3000/productos?sort=precio,asc
-9. curl http://localhost:3000/productos?sort=precio,desc
-
-
-## Obtener producto por ID
-10. curl http://localhost:3000/productos/1
-11. curl http://localhost:3000/productos/999
-
-
-## Actualizar producto
-12. curl -X PUT http://localhost:3000/productos/2 -H "Content-Type: application/json" -d "{\"stock\":60}"
-13. curl -X PUT http://localhost:3000/productos/3 -H "Content-Type: application/json" -d "{\"nombre\":\"Balatas delanteras Chevrolet Aveo\",\"precio\":950}"
-
-## Eliminar producto 
-14. curl -X DELETE http://localhost:3000/productos/4
-15. curl -X DELETE http://localhost:3000/productos/500
+5. Obtener perfil propio (user o admin)
+GET /users/me
+curl http://localhost:3000/users/me -H "Authorization: Bearer PEGAR_ACCESS_TOKEN_AQUI"

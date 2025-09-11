@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Prueba JWT Roles - Visual</title>
+  <link rel="icon" href="data:,"> <!-- Evita el 404 de favicon -->
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
+    h2 { color: #333; }
+    input, select, button { margin: 5px 0; padding: 8px; width: 300px; border-radius: 5px; border: 1px solid #ccc; }
+    button { cursor: pointer; background: #4CAF50; color: white; border: none; }
+    button:hover { background: #45a049; }
+    .result { margin-top: 15px; padding: 10px; border-radius: 5px; background: #fff; border: 1px solid #ccc; max-height: 300px; overflow: auto; }
+    .success { background: #e0ffe0; border-color: #00b300; }
+    .error { background: #ffe0e0; border-color: #ff0000; }
+    .token { background: #e0f0ff; border-color: #3399ff; }
+  </style>
+</head>
+<body>
+
+<h1>Prueba JWT con Roles</h1>
+
+<h2>Registro</h2>
+<input type="email" id="regEmail" placeholder="Email"><br>
+<input type="password" id="regPassword" placeholder="Password"><br>
+<select id="regRole">
+  <option value="user">User</option>
+  <option value="admin">Admin</option>
+</select><br>
+<button onclick="register()">Registrar</button>
+
+<h2>Login</h2>
+<input type="email" id="loginEmail" placeholder="Email"><br>
+<input type="password" id="loginPassword" placeholder="Password"><br>
+<button onclick="login()">Login</button>
+
+<h2>Acciones</h2>
+<button onclick="getAllUsers()">Ver todos los usuarios (admin)</button>
+<button onclick="getMyProfile()">Ver mi perfil</button>
+<button onclick="refreshToken()">Refrescar Token</button>
+
+<h2>Resultado</h2>
+<div id="result" class="result"></div>
+
+<h2>Tokens</h2>
+<div id="tokens" class="result token"></div>
+
+<script>
+let accessToken = '';
+let refreshTokenValue = '';
+
+function showResult(data, type = 'success') {
+  const div = document.getElementById('result');
+  div.className = `result ${type}`;
+  div.textContent = JSON.stringify(data, null, 2);
+}
+
+function showTokens() {
+  const div = document.getElementById('tokens');
+  div.innerHTML = `<strong>Access Token:</strong> ${accessToken}<br><strong>Refresh Token:</strong> ${refreshTokenValue}`;
+}
+
+// Funciones
+async function register() {
+  try {
+    const res = await fetch('http://localhost:3000/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: document.getElementById('regEmail').value,
+        password: document.getElementById('regPassword').value,
+        role: document.getElementById('regRole').value
+      })
+    });
+    const data = await res.json();
+    showResult(data, res.ok ? 'success' : 'error');
+  } catch (err) {
+    showResult({ message: err.message }, 'error');
+  }
+}
+
+async function login() {
+  try {
+    const res = await fetch('http://localhost:3000/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: document.getElementById('loginEmail').value,
+        password: document.getElementById('loginPassword').value
+      })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      accessToken = data.token;
+      refreshTokenValue = data.refreshToken;
+      showTokens();
+    }
+    showResult(data, res.ok ? 'success' : 'error');
+  } catch (err) {
+    showResult({ message: err.message }, 'error');
+  }
+}
+
+async function getAllUsers() {
+  try {
+    const res = await fetch('http://localhost:3000/users', {
+      headers: { 'Authorization': 'Bearer ' + accessToken }
+    });
+    const data = await res.json();
+    showResult(data, res.ok ? 'success' : 'error');
+  } catch (err) {
+    showResult({ message: err.message }, 'error');
+  }
+}
+
+async function getMyProfile() {
+  try {
+    const res = await fetch('http://localhost:3000/users/me', {
+      headers: { 'Authorization': 'Bearer ' + accessToken }
+    });
+    const data = await res.json();
+    showResult(data, res.ok ? 'success' : 'error');
+  } catch (err) {
+    showResult({ message: err.message }, 'error');
+  }
+}
+
+async function refreshToken() {
+  try {
+    const res = await fetch('http://localhost:3000/auth/refresh', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: refreshTokenValue })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      accessToken = data.token;
+      showTokens();
+    }
+    showResult(data, res.ok ? 'success' : 'error');
+  } catch (err) {
+    showResult({ message: err.message }, 'error');
+  }
+}
+</script>
+
+</body>
+</html>
