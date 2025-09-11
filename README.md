@@ -101,3 +101,4 @@ curl http://localhost:3000/users -H "Authorization: Bearer PEGAR_AQUI_EL_ACCESS_
 5. Obtener perfil propio (user o admin)
 GET /users/me
 curl http://localhost:3000/users/me -H "Authorization: Bearer PEGAR_ACCESS_TOKEN_AQUI"
+"# practica3-jwt" 
